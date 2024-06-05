@@ -1,0 +1,124 @@
+.center {
+  margin: 40px;
+}
+.topbar{
+  overflow: hidden;
+  background: #C8CBD0;
+  box-shadow: 0px 4px 0 0 #4D5259;
+}
+
+.topbar a {
+  background: #748E54;
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  box-shadow: 4px 0px 0 0 #54673C;
+}
+
+.topbar a:hover {
+  background-color: #92AC72;
+  color: black;
+}
+
+.topbar a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.round{
+  font-size: 12px;
+  color: #4D5259;
+  line-height: 1.5;
+  font-weight: bold;
+  padding: .5em 2em;
+  background: #FFFFFF;
+  border: 2px solid #4D5259;
+  box-shadow: 4px 4px 0 0 #4D5259;
+  border-radius: 100px;
+  outline:0;
+  transition: ease all .1s;
+} 
+.round:active {
+  transform: translateY(4px) translateX(4px);
+  box-shadow: 0px 0px 0 0 #4D5259;
+}
+.round:hover {
+  background: #d3d3d3;
+}
+
+.settings {
+  font-size: 10px;
+  color: #4D5259;
+  line-height: 1.5;
+  font-weight: bold;
+  padding: .5em 2em;
+  background: #FFFFFF;
+  border: 2px solid #4D5259;
+  box-shadow: 4px 4px 0 0 #4D5259;
+  outline:0;
+}
+
+.settings:active {
+  transform: translateY(4px) translateX(4px);
+  box-shadow: 0px 0px 0 0 #4D5259;
+}
+.settings:hover {
+  background: #d3d3d3;
+}
+
+body {
+            --bg-color: var(--tg-theme-bg-color);
+            font: 12px/18px "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--tg-theme-text-color);
+            margin: 48px 24px;
+            padding: 0;
+            color-scheme: var(--tg-color-scheme);
+        }
+
+        a {
+            color: var(--tg-theme-link-color);
+        }
+        #viewport {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: var(--tg-viewport-stable-height, 100vh);
+            pointer-events: none;
+            transition: all .2s ease;
+        }
+        #viewport:after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border-width: 4px;
+            border-style: solid;
+            border-image: linear-gradient(45deg, rgba(64, 224, 208, .5), rgba(173, 255, 47, .5)) 1;
+        }
+
+        #viewport-params-size,
+        #viewport-params-expand {
+            content: attr(text);
+            position: absolute;
+            display: inline-block;
+            background: var(--tg-theme-link-color, rgb(64, 224, 208));
+            right: 4px;
+            left: auto;
+            font-size: 8px;
+            padding: 4px;
+            vertical-align: top;
+        }
+        #viewport-params-size {
+            top: 4px;
+        }
+        #viewport-params-expand {
+            top: 30px;
+        }
