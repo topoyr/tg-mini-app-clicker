@@ -1,18 +1,20 @@
-let money = 0;
-let moneyup = 1;
-let msec = 0;
-let upcost = 15;
-let catcost = 25;
-let workercost = 250;
-let upown = 0;
-let catown = 0;
-let workerown = 0;
-let catadd = 1;
-let workadd = 15;
-let cboost = 1;
-let wboost = 1;
-let catmax = 0;
-let workmax = 0;
+const defaultValues = {
+  money: 0,
+  moneyup: 1,
+  msec: 0,
+  upcost: 15,
+  catcost: 25,
+  workercost: 250,
+  upown: 0,
+  catown: 0,
+  workerown: 0,
+  catadd: 1,
+  workadd: 15,
+  cboost: 1,
+  wboost: 1,
+  catmax: 0,
+  workmax: 0
+};
 
 //save before exiting
 function closingCode() {
@@ -27,58 +29,86 @@ function addcomma(x) {
 }
 //updates all values
 function reloadall() {
-  document.getElementById("click").innerHTML =
-    `LB/click: ${addcomma(moneyup)} | LB/sec: ${addcomma(msec)}`;
+  document.getElementById("click").innerHTML = `LB/click: ${addcomma(
+    moneyup
+  )} | LB/sec: ${addcomma(msec)}`;
   document.getElementById("total").innerHTML = `LB: ${addcomma(money)}`;
-  document.getElementById("cat").innerHTML =
-    `${catown}-clicker cat: ${addcomma(catcost)} | +${addcomma(catadd)}/sec`;
-  document.getElementById("worker").innerHTML =
-    `${workerown}-worker: ${addcomma(workercost)} | +${addcomma(workadd)}/sec`;
-  document.getElementById("upgrade").innerHTML =
-    `${addcomma(upown)}-main upgrade: ${addcomma(upcost)}`;
+  document.getElementById("cat").innerHTML = `${catown}-clicker cat: ${addcomma(
+    catcost
+  )} | +${addcomma(catadd)}/sec`;
+  document.getElementById(
+    "worker"
+  ).innerHTML = `${workerown}-worker: ${addcomma(workercost)} | +${addcomma(
+    workadd
+  )}/sec`;
+  document.getElementById("upgrade").innerHTML = `${addcomma(
+    upown
+  )}-main upgrade: ${addcomma(upcost)}`;
 }
+
+function saveItem(key, value) {
+  Telegram.WebApp.CloudStorage.setItem(key, value);
+}
+
 //overwrites save file
 function save() {
-  localStorage.setItem("money", money);
-  localStorage.setItem("moneyup", moneyup);
-  localStorage.setItem("msec", msec);
-  localStorage.setItem("upcost", upcost);
-  localStorage.setItem("catcost", catcost);
-  localStorage.setItem("catadd", catadd);
-  localStorage.setItem("workercost", workercost);
-  localStorage.setItem("workadd", workadd);
-  localStorage.setItem("catown", catown);
-  localStorage.setItem("workerown", workerown);
-  localStorage.setItem("upown", upown);
-  localStorage.setItem("catadd", catadd);
-  localStorage.setItem("workadd", workadd);
-  localStorage.setItem("cboost", cboost);
-  localStorage.setItem("wboost", wboost);
-  localStorage.setItem("catmax", catmax);
-  localStorage.setItem("workmax", workmax);
+  saveItem("money", money);
+  saveItem("moneyup", moneyup);
+  saveItem("msec", msec);
+  saveItem("upcost", upcost);
+  saveItem("catcost", catcost);
+  saveItem("catadd", catadd);
+  saveItem("workercost", workercost);
+  saveItem("workadd", workadd);
+  saveItem("catown", catown);
+  saveItem("workerown", workerown);
+  saveItem("upown", upown);
+  saveItem("catadd", catadd);
+  saveItem("workadd", workadd);
+  saveItem("cboost", cboost);
+  saveItem("wboost", wboost);
+  saveItem("catmax", catmax);
+  saveItem("workmax", workmax);
 }
+
+const getItem = async (key) => {
+  try {
+ const result = await new Promise((resolve, reject) => {
+    Telegram.WebApp.CloudStorage.getItem(key, (err, data) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(data);
+    });
+  });
+  return result;
+} catch (error) {
+  console.error(error);
+  return defaultValues[key];
+}
+};
 //loads save file
-function load() {
-  money = Number.parseInt(localStorage.getItem("money"));
-  moneyup = Number.parseInt(localStorage.getItem("moneyup"));
-  msec = Number.parseInt(localStorage.getItem("msec"));
-  upcost = Number.parseInt(localStorage.getItem("upcost"));
-  catcost = Number.parseInt(localStorage.getItem("catcost"));
-  upown = Number.parseInt(localStorage.getItem("catadd"));
-  workercost = Number.parseInt(localStorage.getItem("workercost"));
-  upown = Number.parseInt(localStorage.getItem("workadd"));
-  catown = Number.parseInt(localStorage.getItem("catown"));
-  workerown = Number.parseInt(localStorage.getItem("workerown"));
-  upown = Number.parseInt(localStorage.getItem("upown"));
-  catadd = Number.parseInt(localStorage.getItem("catadd"));
-  workadd = Number.parseInt(localStorage.getItem("workadd"));
-  cboost = Number.parseInt(localStorage.getItem("cboost"));
-  wboost = Number.parseInt(localStorage.getItem("wboost"));
-  catmax = Number.parseInt(localStorage.getItem("catmax"));
-  workmax = Number.parseInt(localStorage.getItem("workmax"));
+const load = async () => {
+  money = Number.parseInt(await getItem("money"));
+  moneyup = Number.parseInt(await getItem("moneyup"));
+  msec = Number.parseInt(await getItem("msec"));
+  upcost = Number.parseInt(await getItem("upcost"));
+  catcost = Number.parseInt(await getItem("catcost"));
+  upown = Number.parseInt(await getItem("catadd"));
+  workercost = Number.parseInt(await getItem("workercost"));
+  upown = Number.parseInt(await getItem("workadd"));
+  catown = Number.parseInt(await getItem("catown"));
+  workerown = Number.parseInt(await getItem("workerown"));
+  upown = Number.parseInt(await getItem("upown"));
+  catadd = Number.parseInt(await getItem("catadd"));
+  workadd = Number.parseInt(await getItem("workadd"));
+  cboost = Number.parseInt(await getItem("cboost"));
+  wboost = Number.parseInt(await getItem("wboost"));
+  catmax = Number.parseInt(await getItem("catmax"));
+  workmax = Number.parseInt(await getItem("workmax"));
 
   reloadall();
-}
+};
 //resets all values
 function reset() {
   if (confirm("Are you sure you want to reset?") === true) {
@@ -100,6 +130,7 @@ function reset() {
 function myTimer() {
   money += msec;
   document.getElementById("total").innerHTML = `LB: ${addcomma(money)}`;
+  save();
 }
 setInterval(myTimer, 1000);
 
@@ -107,6 +138,7 @@ setInterval(myTimer, 1000);
 function clicked() {
   money += moneyup;
   document.getElementById("total").innerHTML = `LB: ${addcomma(money)}`;
+  save();
 }
 //upgrade function
 function upgrade(name) {
@@ -144,11 +176,15 @@ function upgrade(name) {
       catown += 1;
       money -= catcost;
       catcost = catcost * 2;
-      document.getElementById("cat").innerHTML =
-        `${catown}-clicker cat: ${addcomma(catcost)} | +${addcomma(catadd * cboost)}/sec`;
+      document.getElementById(
+        "cat"
+      ).innerHTML = `${catown}-clicker cat: ${addcomma(catcost)} | +${addcomma(
+        catadd * cboost
+      )}/sec`;
     } else if (catown === 50) {
-      document.getElementById("cat").innerHTML =
-        `${catown}-clicker cat: MAX | +15% click/sec`;
+      document.getElementById(
+        "cat"
+      ).innerHTML = `${catown}-clicker cat: MAX | +15% click/sec`;
     }
   }
 
@@ -186,11 +222,15 @@ function upgrade(name) {
       workerown += 1;
       money -= workercost;
       workercost = workercost * 3;
-      document.getElementById("worker").innerHTML =
-        `${workerown}-worker: ${addcomma(workercost)} | +${addcomma(workadd * wboost)}/sec`;
+      document.getElementById(
+        "worker"
+      ).innerHTML = `${workerown}-worker: ${addcomma(workercost)} | +${addcomma(
+        workadd * wboost
+      )}/sec`;
     } else if (workerown === 50) {
-      document.getElementById("worker").innerHTML =
-        `${workerown}-worker: MAX | +35% click/sec`;
+      document.getElementById(
+        "worker"
+      ).innerHTML = `${workerown}-worker: MAX | +35% click/sec`;
     }
   }
 
@@ -200,8 +240,9 @@ function upgrade(name) {
       money -= upcost;
       upown += 1;
       upcost = upcost * 5;
-      document.getElementById("upgrade").innerHTML =
-        `${addcomma(upown)}-main upgrade: ${addcomma(upcost)}`;
+      document.getElementById("upgrade").innerHTML = `${addcomma(
+        upown
+      )}-main upgrade: ${addcomma(upcost)}`;
       if (catown === 50) {
         msec -= catmax;
         catmax = Math.floor(moneyup * 0.15);
@@ -213,9 +254,11 @@ function upgrade(name) {
         msec += workmax;
       }
     }
+    save();
   }
 
-  document.getElementById("click").innerHTML =
-    `LB/click: ${addcomma(moneyup)} | LB/sec: ${addcomma(msec)}`;
+  document.getElementById("click").innerHTML = `LB/click: ${addcomma(
+    moneyup
+  )} | LB/sec: ${addcomma(msec)}`;
   document.getElementById("total").innerHTML = `LB: ${addcomma(money)}`;
 }
