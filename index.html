@@ -49,22 +49,6 @@
         });	
         Telegram.WebApp.MainButton.show();
 
-        // Function to call showPopup API
-        function showPopup() {
-            Telegram.WebApp.showPopup({
-                title: 'Title',
-                message: 'Some message',
-                buttons: [
-                    {id: 'link', type: 'default', text: 'Open ton.org'},
-                    {type: 'cancel'},
-                ]
-            }, function(btn) {
-                if (btn === 'link') {
-                    Telegram.WebApp.openLink('https://ton.org/');
-                }
-            });
-        };
-
         // Function to toggle main TWA button
         function toggleMainButton() {
             if (Telegram.WebApp.MainButton.isVisible) {
@@ -93,6 +77,7 @@
         });
 
     </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script>
 </body>
 </html>
