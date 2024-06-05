@@ -81,6 +81,7 @@ const getItem = async (key) => {
       resolve(data);
     });
   });
+  console.log({key, result, defaultValues});
   return result;
 } catch (error) {
   console.error(error);
