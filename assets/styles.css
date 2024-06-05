@@ -104,6 +104,7 @@ body {
             margin: 48px 24px;
             padding: 0;
             color-scheme: var(--tg-color-scheme);
+            
         }
 
         a {
@@ -149,3 +150,45 @@ body {
         #viewport-params-expand {
             top: 30px;
         }
+
+        .telegram-button{
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    height: 20px;
+    box-sizing: border-box;
+    
+    cursor: pointer;
+    background-color: #0088cc;
+    border-radius: 3px;
+    padding: 3px 6px;
+    
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 11px;
+    color: #FFF;
+    text-decoration: none;
+}
+
+.telegram-button:hover{
+    background-color: #007dbb;
+}
+
+.telegram-button:active{
+    background-color: #026698;
+}
+
+.telegram-button i{
+    display: inline-block;
+    height: 12px;
+    width: 14px;
+    vertical-align: middle;
+    margin-right: 2px;
+    
+    background-size: contain;
+}
+
+.telegram-button span{
+    display: inline-block;
+    vertical-align: top;
+}

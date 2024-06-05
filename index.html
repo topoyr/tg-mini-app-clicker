@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Clicker example</title>
-    <style type="text/css" rel="stylesheet" media="all" src="./assets/styles.css"></style>
+    <link rel="stylesheet" href="./assets/styles.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="./assets/clicker.js"></script>
 </head>
@@ -13,15 +13,15 @@
 <body>
     <main>
    <center class='center'>
-      <h1 id='total'>LB: 0</h1>
-      <h5 id="click" style="font-family:trebuchet MS;">LB/click: 1 | LB/sec: 0</h5>
+      <h1 class="text" id='total'>LB: 0</h1>
+      <h5 id="click" class="text" style="font-family:trebuchet MS;">LB/click: 1 | LB/sec: 0</h5>
       <img class="round" src="./assets/Bitcoin.svg.webp" width="150" onclick='clicked()'></img>
       <br><br>
-      <button id='upgrade' class="round" onclick='upgrade("upgrade")' style="font-family:courier;">0-main upgrade: 15</button>
+      <button id='upgrade' class="telegram-button" onclick='upgrade("upgrade")' style="font-family:courier;">0-main upgrade: 15</button>
       <br><br>
-      <button id='cat' class="round" onclick='upgrade("clicker cat")' style="font-family:courier;">0-clicker cat: 25 | +1/sec</button>
+      <button id='cat' class="telegram-button" onclick='upgrade("clicker cat")' style="font-family:courier;">0-clicker cat: 25 | +1/sec</button>
       <br><br>
-      <button id='worker' class="round" onclick='upgrade("worker")' style="font-family:courier;">0-worker: 250 | +15/sec</button><br><br>
+      <button id='worker' class="telegram-button" onclick='upgrade("worker")' style="font-family:courier;">0-worker: 250 | +15/sec</button><br><br>
     </center>
         <h1>Links</h1>
         <ul>
