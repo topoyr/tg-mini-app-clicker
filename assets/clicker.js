@@ -52,12 +52,12 @@ function reloadall() {
   )}-main upgrade: ${addcomma(upcost)}`;
 }
 
-function saveItem(key, value) {
-  Telegram.WebApp.CloudStorage.setItem(key, value);
+async function saveItem(key, value) {
+  const result = await setDoc(doc(db, key, userId + ""), value);
 }
 
 //overwrites save file
-function save() {
+async function save() {
   if (money) {
     values.money = money;
     values.moneyup = moneyup;
@@ -74,48 +74,41 @@ function save() {
     values.wboost = wboost;
     values.catmax = catmax;
     values.workmax = workmax;
-    saveItem("stat", JSON.stringify(values));
+    await saveItem("stat", values);
   }
 }
 
+const userId = Telegram.WebApp.WebAppUser?.id || 12334;
+
 const getItem = async (key) => {
-  console.log({ cs: Telegram.WebApp.CloudStorage });
   try {
-    const result = await new Promise((resolve, reject) => {
-      Telegram.WebApp.CloudStorage.getItem(key, (err, data) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(data);
-      });
-    });
-    console.log({ key, result, defaultValues });
-    return result;
+    const querySnapshot = await getDoc(doc(db, key, userId+""));
+    return querySnapshot.data() || defaultValues;
   } catch (error) {
     console.error(error);
-    return defaultValues[key];
+    return defaultValues;
   }
 };
 //loads save file
 const load = async () => {
-  const stat = JSON.parse(await getItem("stat"));
-  money = Number.parseInt(stat.money);
-  moneyup = Number.parseInt(stat.moneyup);
-  msec = Number.parseInt(stat.msec);
-  upcost = Number.parseInt(stat.upcost);
-  catcost = Number.parseInt(stat.catcost);
-  upown = Number.parseInt(stat.catadd);
-  workercost = Number.parseInt(stat.workercost);
-  upown = Number.parseInt(stat.workadd);
-  catown = Number.parseInt(stat.catown);
-  workerown = Number.parseInt(stat.workerown);
-  upown = Number.parseInt(stat.upown);
-  catadd = Number.parseInt(stat.catadd);
-  workadd = Number.parseInt(stat.workadd);
-  cboost = Number.parseInt(stat.cboost);
-  wboost = Number.parseInt(stat.wboost);
-  catmax = Number.parseInt(stat.catmax);
-  workmax = Number.parseInt(stat.workmax);
+  const stat = await getItem("stat");
+  money = Number.parseInt(stat.money || defaultValues.money);
+  moneyup = Number.parseInt(stat.moneyup || defaultValues.moneyup);
+  msec = Number.parseInt(stat.msec || defaultValues.msec);
+  upcost = Number.parseInt(stat.upcost || defaultValues.upcost);
+  catcost = Number.parseInt(stat.catcost || defaultValues.catcost);
+  upown = Number.parseInt(stat.catadd || defaultValues.catadd);
+  workercost = Number.parseInt(stat.workercost || defaultValues.workercost);
+  upown = Number.parseInt(stat.workadd || defaultValues.workadd);
+  catown = Number.parseInt(stat.catown || defaultValues.catown);
+  workerown = Number.parseInt(stat.workerown || defaultValues.workerown);
+  upown = Number.parseInt(stat.upown || defaultValues.upown);
+  catadd = Number.parseInt(stat.catadd || defaultValues.catadd);
+  workadd = Number.parseInt(stat.workadd || defaultValues.workadd);
+  cboost = Number.parseInt(stat.cboost || defaultValues.cboost);
+  wboost = Number.parseInt(stat.wboost || defaultValues.wboost);
+  catmax = Number.parseInt(stat.catmax || defaultValues.catmax);
+  workmax = Number.parseInt(stat.workmax || defaultValues.workmax);
   loaded = 1;
   reloadall();
 };
@@ -138,10 +131,12 @@ function reset() {
 }
 //timer
 async function myTimer() {
-  money += msec;
-  document.getElementById("total").innerHTML = `LB: ${addcomma(money)}`;
   if (loaded) {
+    money += msec;
+    document.getElementById("total").innerHTML = `LB: ${addcomma(money)}`;
     await save();
+  } else {
+    load();
   }
 }
 setInterval(myTimer, 1000);

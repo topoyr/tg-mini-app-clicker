@@ -1,83 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Clicker example</title>
-    <link rel="stylesheet" href="./assets/styles.css">
+    <link rel="stylesheet" href="./assets/styles.css" />
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      import { getFirestore, collection, getDoc, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDfI4hD19REiGCEz5B01gO6iwHKHo7rJFI",
+        authDomain: "tg-miniapp-d68d7.firebaseapp.com",
+        projectId: "tg-miniapp-d68d7",
+        storageBucket: "tg-miniapp-d68d7.appspot.com",
+        messagingSenderId: "287078081172",
+        appId: "1:287078081172:web:3c1cc2e09ba91454aeca81",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+
+      // Initialize Cloud Firestore and get a reference to the service
+      const db = getFirestore(app);
+      window.db = db;
+      window.getDoc = getDoc;
+      window.setDoc = setDoc;
+      window.doc = doc;
+      window.collection = collection;
+    </script>
     <script src="./assets/clicker.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <main>
-   <center class='center'>
-      <h1 class="text" id='total'>LB: 0</h1>
-      <h5 id="click" class="text" style="font-family:trebuchet MS;">LB/click: 1 | LB/sec: 0</h5>
-      <img class="round" src="./assets/Bitcoin.svg.webp" width="150" onclick='clicked()'></img>
-      <br><br>
-      <button id='upgrade' class="telegram-button" onclick='upgrade("upgrade")' style="font-family:courier;">0-main upgrade: 15</button>
-      <br><br>
-      <button id='cat' class="telegram-button" onclick='upgrade("clicker cat")' style="font-family:courier;">0-clicker cat: 25 | +1/sec</button>
-      <br><br>
-      <button id='worker' class="telegram-button" onclick='upgrade("worker")' style="font-family:courier;">0-worker: 250 | +15/sec</button><br><br>
-    </center>
-        <h1>Links</h1>
-        <ul>
-            <li>
-                <a href="javascript:Telegram.WebApp.openLink('https://ilink.dev/');">made by ilink.dev</a>
-            </li>
-        </ul>
+      <div class="center">
+        <h1 class="text" id="total">LB: 0</h1>
+        <h5 id="click" class="text" style="font-family: trebuchet MS">
+          LB/click: 1 | LB/sec: 0
+        </h5>
+        <img
+          class="round"
+          src="./assets/Bitcoin.svg.webp"
+          width="150"
+          onclick="clicked()"
+        />
+        <br /><br />
+        <button
+          id="upgrade"
+          class="telegram-button"
+          onclick='upgrade("upgrade")'
+          style="font-family: courier"
+        >
+          0-main upgrade: 15
+        </button>
+        <br /><br />
+        <button
+          id="cat"
+          class="telegram-button"
+          onclick='upgrade("clicker cat")'
+          style="font-family: courier"
+        >
+          0-clicker cat: 25 | +1/sec
+        </button>
+        <br /><br />
+        <button
+          id="worker"
+          class="telegram-button"
+          onclick='upgrade("worker")'
+          style="font-family: courier"
+        >
+          0-worker: 250 | +15/sec</button
+        ><br /><br />
+      </div>
+      <h1>Links</h1>
+      <ul>
+        <li>
+          <a href="javascript:Telegram.WebApp.openLink('https://ilink.dev/');"
+            >made by ilink.dev</a
+          >
+        </li>
+      </ul>
     </main>
-    
+
     <script>
-        // Init TWA
-        Telegram.WebApp.ready();
-        load();
-        // Event occurs whenever theme settings are changed in the user's Telegram app (including switching to night mode).
-        Telegram.WebApp.onEvent('themeChanged', function() {
-            document.documentElement.className = Telegram.WebApp.colorScheme;
-        });
+      // Init TWA
+      Telegram.WebApp.ready();
+      // Event occurs whenever theme settings are changed in the user's Telegram app (including switching to night mode).
+      Telegram.WebApp.onEvent("themeChanged", function () {
+        document.documentElement.className = Telegram.WebApp.colorScheme;
+      });
 
-        // Show main button
-        Telegram.WebApp.MainButton.setParams({
-            text: 'Main Button'
-        });
-        Telegram.WebApp.MainButton.onClick(function () {
-            Telegram.WebApp.showAlert('Main Button was clicked')
-        });	
-        Telegram.WebApp.MainButton.show();
+      // Show main button
+      Telegram.WebApp.MainButton.setParams({
+        text: "Main Button",
+      });
+      Telegram.WebApp.MainButton.onClick(function () {
+        Telegram.WebApp.showAlert("Main Button was clicked");
+      });
+      Telegram.WebApp.MainButton.show();
 
-        // Function to toggle main TWA button
-        function toggleMainButton() {
-            if (Telegram.WebApp.MainButton.isVisible) {
-                Telegram.WebApp.MainButton.hide();
-            } else {
-                Telegram.WebApp.MainButton.show();
-            }
-        };
-
-        function setViewportData() {
-            var sizeEl = document.getElementById('viewport-params-size');
-            sizeEl.innerText = 'width: ' + window.innerWidth + ' x ' + 
-                'height: ' + Telegram.WebApp.viewportStableHeight;
-
-            var expandEl = document.querySelector('#viewport-params-expand');
-            expandEl.innerText = 'Is Expanded: ' + (Telegram.WebApp.isExpanded ? 'true' : 'false');
+      // Function to toggle main TWA button
+      function toggleMainButton() {
+        if (Telegram.WebApp.MainButton.isVisible) {
+          Telegram.WebApp.MainButton.hide();
+        } else {
+          Telegram.WebApp.MainButton.show();
         }
+      }
 
-        Telegram.WebApp.setHeaderColor('secondary_bg_color');
+      function setViewportData() {
+        var sizeEl = document.getElementById("viewport-params-size");
+        sizeEl.innerText =
+          "width: " +
+          window.innerWidth +
+          " x " +
+          "height: " +
+          Telegram.WebApp.viewportStableHeight;
 
-        setViewportData();
-        Telegram.WebApp.onEvent('viewportChanged', setViewportData);
+        var expandEl = document.querySelector("#viewport-params-expand");
+        expandEl.innerText =
+          "Is Expanded: " + (Telegram.WebApp.isExpanded ? "true" : "false");
+      }
 
-        Telegram.WebApp.onEvent('themeChanged', function() {
-            document.body.setAttribute('style', '--bg-color:' + Telegram.WebApp.backgroundColor);
-        });
+      Telegram.WebApp.setHeaderColor("secondary_bg_color");
 
+      setViewportData();
+      Telegram.WebApp.onEvent("viewportChanged", setViewportData);
+
+      Telegram.WebApp.onEvent("themeChanged", function () {
+        document.body.setAttribute(
+          "style",
+          "--bg-color:" + Telegram.WebApp.backgroundColor
+        );
+      });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-    <script>eruda.init();</script>
-</body>
+    <script>
+      eruda.init();
+    </script>
+  </body>
 </html>
