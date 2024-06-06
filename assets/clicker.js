@@ -13,8 +13,10 @@ const defaultValues = {
   cboost: 1,
   wboost: 1,
   catmax: 0,
-  workmax: 0
+  workmax: 0,
 };
+
+let loaded = 0;
 
 //save before exiting
 function closingCode() {
@@ -73,20 +75,20 @@ function save() {
 
 const getItem = async (key) => {
   try {
- const result = await new Promise((resolve, reject) => {
-    Telegram.WebApp.CloudStorage.getItem(key, (err, data) => {
-      if (err) {
-        reject(err);
-      }
-      resolve(data);
+    const result = await new Promise((resolve, reject) => {
+      Telegram.WebApp.CloudStorage.getItem(key, (err, data) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(data);
+      });
     });
-  });
-  console.log({key, result, defaultValues});
-  return result;
-} catch (error) {
-  console.error(error);
-  return defaultValues[key];
-}
+    console.log({ key, result, defaultValues });
+    return result;
+  } catch (error) {
+    console.error(error);
+    return defaultValues[key];
+  }
 };
 //loads save file
 const load = async () => {
@@ -107,7 +109,7 @@ const load = async () => {
   wboost = Number.parseInt(await getItem("wboost"));
   catmax = Number.parseInt(await getItem("catmax"));
   workmax = Number.parseInt(await getItem("workmax"));
-
+  loaded = 1;
   reloadall();
 };
 //resets all values
@@ -128,10 +130,12 @@ function reset() {
   }
 }
 //timer
-function myTimer() {
+async function myTimer() {
   money += msec;
   document.getElementById("total").innerHTML = `LB: ${addcomma(money)}`;
-  save();
+  if (loaded) {
+    await save();
+  }
 }
 setInterval(myTimer, 1000);
 
