@@ -16,6 +16,10 @@ const defaultValues = {
   workmax: 0,
 };
 
+const values = {
+  ...defaultValues,
+};
+
 let loaded = 0;
 
 //save before exiting
@@ -54,23 +58,22 @@ function saveItem(key, value) {
 
 //overwrites save file
 function save() {
-  saveItem("money", money);
-  saveItem("moneyup", moneyup);
-  saveItem("msec", msec);
-  saveItem("upcost", upcost);
-  saveItem("catcost", catcost);
-  saveItem("catadd", catadd);
-  saveItem("workercost", workercost);
-  saveItem("workadd", workadd);
-  saveItem("catown", catown);
-  saveItem("workerown", workerown);
-  saveItem("upown", upown);
-  saveItem("catadd", catadd);
-  saveItem("workadd", workadd);
-  saveItem("cboost", cboost);
-  saveItem("wboost", wboost);
-  saveItem("catmax", catmax);
-  saveItem("workmax", workmax);
+  values.money = money;
+  values.moneyup = moneyup;
+  values.msec = msec;
+  values.upcost = upcost;
+  values.catcost = catcost;
+  values.workercost = workercost;
+  values.upown = upown;
+  values.catown = catown;
+  values.workerown = workerown;
+  values.catadd = catadd;
+  values.workadd = workadd;
+  values.cboost = cboost;
+  values.wboost = wboost;
+  values.catmax = catmax;
+  values.workmax = workmax;
+  saveItem("stat", JSON.stringify(values));
 }
 
 const getItem = async (key) => {
@@ -92,23 +95,24 @@ const getItem = async (key) => {
 };
 //loads save file
 const load = async () => {
-  money = Number.parseInt(await getItem("money"));
-  moneyup = Number.parseInt(await getItem("moneyup"));
-  msec = Number.parseInt(await getItem("msec"));
-  upcost = Number.parseInt(await getItem("upcost"));
-  catcost = Number.parseInt(await getItem("catcost"));
-  upown = Number.parseInt(await getItem("catadd"));
-  workercost = Number.parseInt(await getItem("workercost"));
-  upown = Number.parseInt(await getItem("workadd"));
-  catown = Number.parseInt(await getItem("catown"));
-  workerown = Number.parseInt(await getItem("workerown"));
-  upown = Number.parseInt(await getItem("upown"));
-  catadd = Number.parseInt(await getItem("catadd"));
-  workadd = Number.parseInt(await getItem("workadd"));
-  cboost = Number.parseInt(await getItem("cboost"));
-  wboost = Number.parseInt(await getItem("wboost"));
-  catmax = Number.parseInt(await getItem("catmax"));
-  workmax = Number.parseInt(await getItem("workmax"));
+  const stat = JSON.parse(await getItem("stat"));
+  money = Number.parseInt(stat.money);
+  moneyup = Number.parseInt(stat.moneyup);
+  msec = Number.parseInt(stat.msec);
+  upcost = Number.parseInt(stat.upcost);
+  catcost = Number.parseInt(stat.catcost);
+  upown = Number.parseInt(stat.catadd);
+  workercost = Number.parseInt(stat.workercost);
+  upown = Number.parseInt(stat.workadd);
+  catown = Number.parseInt(stat.catown);
+  workerown = Number.parseInt(stat.workerown);
+  upown = Number.parseInt(stat.upown);
+  catadd = Number.parseInt(stat.catadd);
+  workadd = Number.parseInt(stat.workadd);
+  cboost = Number.parseInt(stat.cboost);
+  wboost = Number.parseInt(stat.wboost);
+  catmax = Number.parseInt(stat.catmax);
+  workmax = Number.parseInt(stat.workmax);
   loaded = 1;
   reloadall();
 };
