@@ -77,6 +77,7 @@ function save() {
 }
 
 const getItem = async (key) => {
+  console.log({ cs: Telegram.WebApp.CloudStorage });
   try {
     const result = await new Promise((resolve, reject) => {
       Telegram.WebApp.CloudStorage.getItem(key, (err, data) => {
