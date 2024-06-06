@@ -58,22 +58,24 @@ function saveItem(key, value) {
 
 //overwrites save file
 function save() {
-  values.money = money;
-  values.moneyup = moneyup;
-  values.msec = msec;
-  values.upcost = upcost;
-  values.catcost = catcost;
-  values.workercost = workercost;
-  values.upown = upown;
-  values.catown = catown;
-  values.workerown = workerown;
-  values.catadd = catadd;
-  values.workadd = workadd;
-  values.cboost = cboost;
-  values.wboost = wboost;
-  values.catmax = catmax;
-  values.workmax = workmax;
-  saveItem("stat", JSON.stringify(values));
+  if (money) {
+    values.money = money;
+    values.moneyup = moneyup;
+    values.msec = msec;
+    values.upcost = upcost;
+    values.catcost = catcost;
+    values.workercost = workercost;
+    values.upown = upown;
+    values.catown = catown;
+    values.workerown = workerown;
+    values.catadd = catadd;
+    values.workadd = workadd;
+    values.cboost = cboost;
+    values.wboost = wboost;
+    values.catmax = catmax;
+    values.workmax = workmax;
+    saveItem("stat", JSON.stringify(values));
+  }
 }
 
 const getItem = async (key) => {
