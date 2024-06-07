@@ -133,9 +133,6 @@ function reset() {
 }
 //timer
 async function myTimer() {
-  console.log({
-    wa: Telegram.Utils.urlParseQueryString(Telegram.WebApp.initData),
-  });
   if (loaded) {
     money += msec;
     document.getElementById("total").innerHTML = `LB: ${addcomma(money)}`;
