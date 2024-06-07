@@ -78,11 +78,13 @@ async function save() {
   }
 }
 
-const userId = Telegram.WebApp.WebAppUser?.id || 12334;
+const initData = Telegram.Utils.urlParseQueryString(Telegram.WebApp.initData);
+const user = JSON.parse(initData.user);
+const userId = user.id || Telegram.WebApp.WebAppUser?.id || 12334;
 
 const getItem = async (key) => {
   try {
-    const querySnapshot = await getDoc(doc(db, key, userId+""));
+    const querySnapshot = await getDoc(doc(db, key, userId + ""));
     return querySnapshot.data() || defaultValues;
   } catch (error) {
     console.error(error);
@@ -131,7 +133,9 @@ function reset() {
 }
 //timer
 async function myTimer() {
-  console.log({ wa: Telegram.WebApp });
+  console.log({
+    wa: Telegram.Utils.urlParseQueryString(Telegram.WebApp.initData),
+  });
   if (loaded) {
     money += msec;
     document.getElementById("total").innerHTML = `LB: ${addcomma(money)}`;
