@@ -77,7 +77,7 @@ async function save() {
     await saveItem("stat", values);
   }
 }
-console.log({ wa: Telegram.WebApp });
+
 const userId = Telegram.WebApp.WebAppUser?.id || 12334;
 
 const getItem = async (key) => {
@@ -131,6 +131,7 @@ function reset() {
 }
 //timer
 async function myTimer() {
+  console.log({ wa: Telegram.WebApp });
   if (loaded) {
     money += msec;
     document.getElementById("total").innerHTML = `LB: ${addcomma(money)}`;
