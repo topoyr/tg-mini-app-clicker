@@ -77,7 +77,7 @@ async function save() {
     await saveItem("stat", values);
   }
 }
-
+console.log({ wa: Telegram.WebApp });
 const userId = Telegram.WebApp.WebAppUser?.id || 12334;
 
 const getItem = async (key) => {
